@@ -6,7 +6,10 @@ module Admins
       init_resource(sign_up_params)
       if resource.save
         create_token_and_set_header(resource, resource_name)
-        render_success(message: I18n.t("api_guard.registration.signed_up"))
+        render_success(
+          message: I18n.t("api_guard.registration.signed_up"),
+          data: AdminSerializer.new(resource).serializable_hash[:data][:attributes]
+        )
       else
         render_error(422, object: resource)
       end

@@ -6,7 +6,10 @@ module Admins
     def create
       if resource.authenticate(params[:password])
         create_token_and_set_header(resource, resource_name)
-        render_success(message: I18n.t("api_guard.authentication.signed_in"))
+        render_success(
+          message: I18n.t("api_guard.authentication.signed_in"),
+          data: AdminSerializer.new(resource).serializable_hash[:data][:attributes]
+        )
       else
         render_error(422, message: I18n.t("api_guard.authentication.invalid_login_credentials"))
       end
