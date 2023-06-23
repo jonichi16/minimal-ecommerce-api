@@ -1,5 +1,5 @@
 require "rails_helper"
 
 RSpec.describe RefreshToken do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { is_expected.to belong_to(:admin) }
 end
