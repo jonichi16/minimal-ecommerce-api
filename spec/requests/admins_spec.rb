@@ -169,4 +169,31 @@ RSpec.describe "Admins" do
       end
     end
   end
+
+  describe "GET /admins/profile" do
+    let(:admin) { create(:admin) }
+    let(:tokens) { jwt_and_refresh_token(admin, "admin") }
+
+    context "with valid tokens" do
+      it "returns ok status" do
+        get "/admins/profile", headers: {
+          Authorization: "Bearer #{tokens[0]}"
+        }
+
+        expect(response).to have_http_status(:ok)
+        expect(json["message"]).to eq("Authenticated")
+        expect(json["data"]["email"]).to eq(admin.email)
+      end
+    end
+
+    context "with invalid tokens" do
+      it "returns unauthorized status" do
+        get "/admins/profile", headers: {
+          Authorization: "invalidtoken"
+        }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end

@@ -5,4 +5,6 @@ Rails.application.routes.draw do
     passwords: "admins/passwords",
     tokens: "admins/tokens"
   }
+
+  get "admins/profile", to: "admins#profile", defaults: { format: :json }
 end
