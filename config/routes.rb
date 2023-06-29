@@ -7,4 +7,10 @@ Rails.application.routes.draw do
   }
 
   get "admins/profile", to: "admins#profile", defaults: { format: :json }
+
+  namespace :api do
+    namespace :v1 do
+      resources :categories
+    end
+  end
 end
