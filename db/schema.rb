@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_25_142932) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_30_230203) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,6 +29,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_142932) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.bigint "category_id", null: false
+    t.decimal "price", precision: 8, scale: 2, default: "0.0"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_products_on_category_id"
+  end
+
   create_table "refresh_tokens", force: :cascade do |t|
     t.string "token"
     t.bigint "admin_id", null: false
@@ -39,5 +50,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_142932) do
     t.index ["token"], name: "index_refresh_tokens_on_token", unique: true
   end
 
+  add_foreign_key "products", "categories"
   add_foreign_key "refresh_tokens", "admins"
 end
